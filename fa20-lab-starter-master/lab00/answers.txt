@@ -1,4 +1,9 @@
-1.
-2.
-3.
-4.
+1. ls -la
+2. mv filename.txt directory
+3. chmod u=rwx,q=rx,o=r [filename]
+4. pwd
+5. ping
+6. find [directory] -name filename.txt
+7. ps
+8. kill [pid]
+9. diff filename1.txt filename2.txt
