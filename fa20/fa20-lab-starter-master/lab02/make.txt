@@ -1,0 +1,7 @@
+1.The target that is part of a rule that deletes all the compiled programs is clean.
+2.The target that is part of a rule that makes all the compiled programs is all.
+3.The compiler currently being used is gcc, as specified by the CC=gcc line.
+4.The C standard being used is C99, as specified by the -std=c99 flag in CFLAGS.
+5.To reference a variable FOO in a Makefile, you would use $(FOO).
+6.The term "Darwin" represents the macOS operating system.
+7.The line that creates the lfsr program from its object files is $(CC) $(CFLAGS) -g -o $(LFSR_PROG) $(LFSR_OBJS) $(LDFLAGS). Its line number in the given Makefile would be 31 (assuming that the file starts with the UNAME_S line as line 1).
