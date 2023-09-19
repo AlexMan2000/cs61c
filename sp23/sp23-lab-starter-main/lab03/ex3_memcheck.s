@@ -22,8 +22,12 @@ loop:
     addi t0 t0 4
     # Check if we are done
     # If not, loop
-    bge t2 t1 loop
+    blt t1 t2 loop
 
     # Exit the program
+#     sub t0 t0 a0
+#     mv a0 t0
+#     jal ra free
     li a0 0
+
     jal exit

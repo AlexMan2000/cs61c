@@ -1,8 +1,8 @@
-1. 
-2. 
-3. 
-4. 
-5. 
-6. 
-7. 
-8. 
+1. 0x10008058   # `SimulatorError: Attempting to access uninitialized memory between the stack and heap. Attempting to access '4' bytes at address '0x10008058'.
+2. 4            
+3. 0x10008080   # Invalid memory access of size 4. Address 0x10008080 is 0 bytes after a block of size 40 alloc'd.
+4. 40
+5. 25
+6. 11
+7. 40
+8. 0x10008058
