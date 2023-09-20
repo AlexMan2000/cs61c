@@ -23,7 +23,10 @@ main:
     jal ra, map
 
     # print the list
-    add a0, s0, x0
+    # See here, the main function still need s0, so the call
+    # to the map()(which is the callee) should at least make sure
+    # that the s0 register is unchanged before and after.
+    add a0, s0, x0      
     jal ra, print_list
 
     # print another newline
@@ -36,18 +39,19 @@ map:
     # Prologue: Make space on the stack and back-up registers
     ### YOUR CODE HERE ###
     # map is the callee to main and caller to square
-    addi sp sp -12
+    addi sp sp -8
     # caller saved registers
     sw ra 0(sp)
+    # We will have to save s0, which is used by caller later on
+    sw s0 4(sp)
+    # We don't have to save s1, because main() is not using it, so
+    # we can safely use s1 as our backup register instead of stack
     
     beq a0, x0, done    # If we were given a null pointer (address 0), we're done.
 
     add s0, a0, x0  # Save address of this node in s0
-    add s1, a1, x0  # Save address of function in s1
+    # add s1, a1, x0  # Save address of function in s1
 
-    # callee saved registers
-    sw s0 4(sp)
-    sw s1 8(sp)
 
     # Remember that each node is 8 bytes long: 4 for the value followed by 4 for the pointer to next.
     # What does this tell you about how you access the value and how you access the pointer to next?
@@ -80,7 +84,7 @@ map:
     # Put the address of the function back into a1 to prepare for the recursion
     # THINK: why a1? What about a0?
     ### YOUR CODE HERE ###
-    add a1 s1 x0
+    # add a1 s1 x0
 
 
     # recurse
@@ -90,10 +94,16 @@ map:
 done:
     # Epilogue: Restore register values and free space from the stack
     ### YOUR CODE HERE ###
+    # Restore ra
     lw ra 0(sp)
+
+    # Restore saved register, s0
     lw s0 4(sp)
-    lw s1 8(sp)
-    addi sp sp 12
+
+    # Restore volatile registers.
+    add a0 s0 x0
+
+    addi sp sp 8
 
     jr ra # Return to caller
 
