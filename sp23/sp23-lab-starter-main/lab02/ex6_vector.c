@@ -136,4 +136,8 @@ void vector_set(vector_t *v, size_t loc, int value) {
     } else {
         *(v -> data + loc) = value;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 0588a64bf35354fbac1462334d7d5cb437ac0eee

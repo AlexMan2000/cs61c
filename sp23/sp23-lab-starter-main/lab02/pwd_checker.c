@@ -21,7 +21,7 @@ For the simplicity of this exercise:
 /* Returns true if the length of PASSWORD is at least 10, false otherwise */
 bool check_length(const char *password) {
     int length = strlen(password);
-    bool meets_len_req = (length <= 10);
+    bool meets_len_req = (length >= 10);
     return meets_len_req;
 }
 
@@ -58,7 +58,7 @@ bool check_lower(const char *password) {
 /* Returns true if PASSWORD contains at least one number, false otherwise */
 bool check_number(const char *password) {
     while (*password != '\0') {
-        if (check_range(*password, 0, 9)) {
+        if (check_range(*password, '0', '9')) {
             return true;
         }
         ++password;

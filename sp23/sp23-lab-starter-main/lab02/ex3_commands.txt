@@ -3,3 +3,15 @@
 # Lines starting with # are comments, feel free to add any to document your commands
 
 # Please add your commands below this line
+
+
+1. break check_number     
+2. run
+3. b 31 if letter == 'o'
+4. o
+5. c
+6. p letter
+7. p is_in_range
+8. p lower
+9. p upper
+10. quit

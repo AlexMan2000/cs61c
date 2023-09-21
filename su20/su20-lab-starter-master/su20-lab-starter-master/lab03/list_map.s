@@ -17,12 +17,16 @@ main:
 
     # load the address of the function in question into a1 (check out la on the green sheet)
     ### YOUR CODE HERE ###
+    la a1 square
 
     # issue the call to map
     jal ra, map
 
     # print the list
-    add a0, s0, x0
+    # See here, the main function still need s0, so the call
+    # to the map()(which is the callee) should at least make sure
+    # that the s0 register is unchanged before and after.
+    add a0, s0, x0      
     jal ra, print_list
 
     # print another newline
@@ -34,42 +38,72 @@ main:
 map:
     # Prologue: Make space on the stack and back-up registers
     ### YOUR CODE HERE ###
-
+    # map is the callee to main and caller to square
+    addi sp sp -8
+    # caller saved registers
+    sw ra 0(sp)
+    # We will have to save s0, which is used by caller later on
+    sw s0 4(sp)
+    # We don't have to save s1, because main() is not using it, so
+    # we can safely use s1 as our backup register instead of stack
+    
     beq a0, x0, done    # If we were given a null pointer (address 0), we're done.
 
     add s0, a0, x0  # Save address of this node in s0
-    add s1, a1, x0  # Save address of function in s1
+    # add s1, a1, x0  # Save address of function in s1
+
 
     # Remember that each node is 8 bytes long: 4 for the value followed by 4 for the pointer to next.
     # What does this tell you about how you access the value and how you access the pointer to next?
 
+
+    # Prepare for calling
     # load the value of the current node into a0
-    # THINK: why a0?
-    ### YOUR CODE HERE ###
+    # THINK: why a0? Since it is the first argument to the f() to be called by map()
+    ### YOUR CODE HERE ##
+    lw a0 0(a0)
 
     # Call the function in question on that value. DO NOT use a label (be prepared to answer why).
     # What function? Recall the parameters of "map"
     ### YOUR CODE HERE ###
+    jalr ra a1 0
 
     # store the returned value back into the node
     # Where can you assume the returned value is?
     ### YOUR CODE HERE ###
+    sw a0 0(s0)
+
 
     # Load the address of the next node into a0
     # The Address of the next node is an attribute of the current node.
     # Think about how structs are organized in memory.
     ### YOUR CODE HERE ###
+    lw a0 4(s0)
+
 
     # Put the address of the function back into a1 to prepare for the recursion
     # THINK: why a1? What about a0?
     ### YOUR CODE HERE ###
+    # add a1 s1 x0
+
 
     # recurse
     ### YOUR CODE HERE ###
+    jal ra map
 
 done:
     # Epilogue: Restore register values and free space from the stack
     ### YOUR CODE HERE ###
+    # Restore ra
+    lw ra 0(sp)
+
+    # Restore saved register, s0
+    lw s0 4(sp)
+
+    # Restore volatile registers.
+    add a0 s0 x0
+
+    addi sp sp 8
 
     jr ra # Return to caller
 

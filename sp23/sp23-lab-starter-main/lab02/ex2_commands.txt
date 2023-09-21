@@ -3,3 +3,16 @@
 # Lines starting with # are comments, feel free to add any to document your commands
 
 # Please add your commands below this line
+
+1. break 1    run   # At line 1 / # run the program, stop at printf
+2. n                # Step over printf
+3. n n n            # Step Until check_password()
+4. s                # Step into check_password()
+5. s                # Step into check_lower()
+6. p password       # Print the value of password(a string), "qrtv?,mp!ltrA0b13rab4ham"
+7. finish           # finish the execution of current function check_lower()
+8. n s              # Go to next line and step into the check_length()
+9. until 25         # Go to last line of the check_length()
+10. p meets_len_req # print the return value of the function #false
+11. p length        # print variable length, 24
+12. quit            # quit gdb
