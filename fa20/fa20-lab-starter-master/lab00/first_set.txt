@@ -1,0 +1,16 @@
+Which command walks a file hierarchy in search of a keyword?
+find [directory] -name sample.txt
+
+
+Which command displays information about processes running on your machine?
+ps
+
+
+Which command terminates a process?
+kill
+
+
+
+Which command can help you find the difference between two files?
+diff ./new.txt ./new2.txt
+
