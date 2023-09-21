@@ -82,7 +82,7 @@ inc_arr:
     sw ra, 0(sp)
     
     addi sp, sp, -12
-    sw a0, 0(sp)
+#     sw a0, 0(sp)
     sw s0, 4(sp)
     sw s1, 8(sp)    # Careful, we still have to save the s1 register. Even if we are not using it after the call from the main function.
     
@@ -112,7 +112,7 @@ inc_arr_loop:
 inc_arr_end:
     # BEGIN EPILOGUE
     # FIXME What other registers need to be restored?
-    lw a0, 0(sp)
+#     lw a0, 0(sp)
     lw s0, 4(sp)
     lw s1, 8(sp)
     

@@ -24,12 +24,73 @@ static void update_head(game_state_t* state, unsigned int snum);
 /* Task 1 */
 game_state_t* create_default_state() {
   // TODO: Implement this function.
-  return NULL;
+
+  // Initial parameters
+
+  // Initialize the game_state_t in the heap
+  game_state_t* game_state = (game_state_t*) malloc(sizeof(game_state_t));
+  game_state -> num_rows = 18;
+  game_state -> num_snakes = 1;
+
+  // Initialize the snake array
+  snake_t* snakes = (snake_t*) malloc(sizeof(snake_t) * game_state -> num_snakes);
+  
+  // Initialize the board(2d array)
+  char** board = (char**) malloc(sizeof(char*) * game_state->num_rows);
+  for (int i = 0; i < game_state -> num_rows; i++) {
+    char* row = (char*) malloc(sizeof(char) * 20); 
+    board[i] = row;
+  }
+
+  strcpy(board[0], "####################");
+  strcpy(board[game_state -> num_rows - 1], "####################");
+  for (int i = 1; i < game_state -> num_rows - 1; i++){
+    strcpy(board[i], "#                  #");
+    strcpy(board[i], "#                  #");
+  }
+
+  // Initialize the snake
+  snakes[0].tail_row = 2;
+  snakes[0].tail_col = 2;
+  snakes[0].head_row = 2;
+  snakes[0].head_col = 4;
+  snakes[0].live = true;
+
+  board[2][2] = 'd';
+  board[2][3] = '>';
+  board[2][4] = 'D';
+
+
+  // Initialize the fruit
+  board[2][9] = '*';
+
+
+  // Assemble the game_state
+  game_state -> board = board;
+  game_state -> snakes = snakes;
+
+  return game_state;
 }
 
 /* Task 2 */
 void free_state(game_state_t* state) {
   // TODO: Implement this function.
+
+  // Free board
+  char** board = state -> board;
+  for (int i = 0; i < state -> num_rows; i++) {
+    char* row_pointer = board[i];
+    free(row_pointer); 
+  }
+  free(board);
+
+  // Free snakes
+  char* snake_arr = state -> snakes;
+  free(snake_arr);
+
+  // Free game_state
+  free(state);
+
   return;
 }
 
