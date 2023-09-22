@@ -5,6 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define TAIL "wasd"
+#define FRONT "WASD"
+#define SNAKE "wasd^<v>WASDx"
+
 #include "snake_utils.h"
 
 /* Helper function definitions */
@@ -141,7 +145,14 @@ static void set_board_at(game_state_t* state, unsigned int row, unsigned int col
 */
 static bool is_tail(char c) {
   // TODO: Implement this function.
-  return true;
+  int i = 0;
+  while (i < strlen(TAIL)) {
+    if (TAIL[i] == c) {
+      return true;
+    }
+    i++;
+  }
+  return false;
 }
 
 /*
@@ -151,7 +162,14 @@ static bool is_tail(char c) {
 */
 static bool is_head(char c) {
   // TODO: Implement this function.
-  return true;
+  int i = 0;
+  while (i < strlen(FRONT)) {
+    if (FRONT[i] == c) {
+      return true;
+    }
+    i++;
+  }
+  return false;
 }
 
 /*
@@ -160,7 +178,14 @@ static bool is_head(char c) {
 */
 static bool is_snake(char c) {
   // TODO: Implement this function.
-  return true;
+  int i = 0;
+  while (i < strlen(SNAKE)) {
+    if (SNAKE[i] == c) {
+      return true;
+    }
+    i++;
+  }
+  return false;
 }
 
 /*
@@ -170,6 +195,7 @@ static bool is_snake(char c) {
 */
 static char body_to_tail(char c) {
   // TODO: Implement this function.
+  
   return '?';
 }
 
