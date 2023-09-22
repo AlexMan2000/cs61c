@@ -100,36 +100,300 @@ bool test_is_vowel() {
 
 bool test_is_tail() {
   // TODO: Implement this function.
+  // Head should not be tail
+  char e1 = 'W';
+  bool output = is_tail(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = 'A';
+  output = is_tail(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = 'S';
+  output = is_tail(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = 'D';
+  output = is_tail(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
+
+  // Body should not be tail
+  e1 = '<';
+  output = is_tail(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = 'v';
+  output = is_tail(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = '>';
+  output = is_tail(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = '^';
+  output = is_tail(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
+  // Tail should be tail
+  e1 = 'w';
+  output = is_tail(e1);
+  if(!assert_true("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = 'a';
+  output = is_tail(e1);
+  if(!assert_true("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = 's';
+  output = is_tail(e1);
+  if(!assert_true("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = 'd';
+  output = is_tail(e1);
+  if(!assert_true("output_test_4.1", output)) {
+    return false;
+  }
+
   return true;
 }
 
 bool test_is_head() {
   // TODO: Implement this function.
+  // Head should be head
+  char e1 = 'W';
+  bool output = is_head(e1);
+  if(!assert_true("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = 'A';
+  output = is_head(e1);
+  if(!assert_true("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = 'S';
+  output = is_head(e1);
+  if(!assert_true("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = 'D';
+  output = is_head(e1);
+  if(!assert_true("output_test_4.1", output)) {
+    return false;
+  }
+
+
+  // Body should not be tail
+  e1 = '<';
+  output = is_head(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = 'v';
+  output = is_head(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = '>';
+  output = is_head(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = '^';
+  output = is_head(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
+  // Tail should not be head
+  e1 = 'w';
+  output = is_head(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = 'a';
+  output = is_head(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = 's';
+  output = is_head(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
+  e1 = 'd';
+  output = is_head(e1);
+  if(!assert_false("output_test_4.1", output)) {
+    return false;
+  }
+
   return true;
 }
 
 bool test_is_snake() {
   // TODO: Implement this function.
+  char* test_char_arr = SNAKE;
+  for (int i = 0; i < strlen(test_char_arr); i++) {
+    if (!assert_true("output_test_4.1", is_snake(test_char_arr[i]))) {
+      return false;
+    }
+  }
+
+  
+  char* test = "1238zoutuorut";
+  for (int i = 0; i < strlen(test); i++) {
+    if (!assert_false("output_test_4.1", is_snake(test[i]))) {
+      return false;
+    }
+  }
   return true;
 }
 
 bool test_body_to_tail() {
   // TODO: Implement this function.
+  char e1 = '<';
+  char output = body_to_tail(e1);
+  if(!assert_equals_char("output_test_4.1", 'a', output)) {
+    return false;
+  }
+
+  e1 = 'v';
+  output = body_to_tail(e1);
+  if(!assert_equals_char("output_test_4.1", 's', output)) {
+    return false;
+  }
+
+  e1 = '>';
+  output = body_to_tail(e1);
+  if(!assert_equals_char("output_test_4.1", 'd', output)) {
+    return false;
+  }
+
+  e1 = '^';
+  output = body_to_tail(e1);
+  if(!assert_equals_char("output_test_4.1", 'w', output)) {
+    return false;
+  }
   return true;
 }
 
 bool test_head_to_body() {
   // TODO: Implement this function.
+  char e1 = 'W';
+  char output = head_to_body(e1);
+  if(!assert_equals_char("output_test_4.1", '^', output)) {
+    return false;
+  }
+
+  e1 = 'A';
+  output = head_to_body(e1);
+  if(!assert_equals_char("output_test_4.1", '<', output)) {
+    return false;
+  }
+
+  e1 = 'S';
+  output = head_to_body(e1);
+  if(!assert_equals_char("output_test_4.1", 'v', output)) {
+    return false;
+  }
+
+  e1 = 'D';
+  output = head_to_body(e1);
+  if(!assert_equals_char("output_test_4.1", '>', output)) {
+    return false;
+  }
   return true;
 }
 
 bool test_get_next_row() {
   // TODO: Implement this function.
+  unsigned int current_row = 1;
+  char* test_string_1 = "vsS";
+  char* test_string_2 = "^wW";
+  char* test_string_3 = "adAD<>x";
+
+  for (int i = 0; i < strlen(test_string_1); i++) {
+    unsigned int output = get_next_row(current_row, test_string_1[i]);
+    if (!assert_equals_unsigned_int("output_test_4.1", 2, output)) {
+      return false;
+    }
+  }
+
+  for (int i = 0; i < strlen(test_string_2); i++) {
+    unsigned int output = get_next_row(current_row, test_string_2[i]);
+    if (!assert_equals_unsigned_int("output_test_4.1", 0, output)) {
+      return false;
+    }
+  }
+
+  for (int i = 0; i < strlen(test_string_3); i++) {
+    unsigned int output = get_next_row(current_row, test_string_3[i]);
+    if (!assert_equals_unsigned_int("output_test_4.1", 1, output)) {
+      return false;
+    }
+  }
+
   return true;
 }
 
 bool test_get_next_col() {
   // TODO: Implement this function.
+  unsigned int current_col = 1;
+  char* test_string_1 = ">dD";
+  char* test_string_2 = "<aA";
+  char* test_string_3 = "wsWS^v";
+
+  for (int i = 0; i < strlen(test_string_1); i++) {
+    unsigned int output = get_next_col(current_col, test_string_1[i]);
+    if (!assert_equals_unsigned_int("output_test_4.1", 2, output)) {
+      return false;
+    }
+  }
+
+  for (int i = 0; i < strlen(test_string_2); i++) {
+    unsigned int output = get_next_col(current_col, test_string_2[i]);
+    if (!assert_equals_unsigned_int("output_test_4.1", 0, output)) {
+      return false;
+    }
+  }
+
+  for (int i = 0; i < strlen(test_string_3); i++) {
+    unsigned int output = get_next_col(current_col, test_string_3[i]);
+    if (!assert_equals_unsigned_int("output_test_4.1", 1, output)) {
+      return false;
+    }
+  }
+
   return true;
 }
 
