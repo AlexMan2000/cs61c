@@ -6,8 +6,8 @@
 #include <string.h>
 
 // ONLY REQUIRED ON WINDOWS SYSTEM
-// #include <io.h>
-// #include <fcntl.h>
+#include <io.h>
+#include <fcntl.h>
 
 
 #define TAIL "wasd"
@@ -106,7 +106,7 @@ void free_state(game_state_t* state) {
 void print_board(game_state_t* state, FILE* fp) {
   // TODO: Implement this function.
   // Setting mode to binary for this file stream, ONLY ON WINDOWS
-  // _setmode(_fileno(fp), _O_BINARY); 
+  _setmode(_fileno(fp), _O_BINARY); 
     
   unsigned int nrows = state -> num_rows;
   char** board = state -> board;
@@ -403,8 +403,8 @@ void update_state(game_state_t* state, int (*add_food)(game_state_t* state)) {
       update_head(state, i);
       // Generate a random fruit elsewhere.
       add_food(state);
-    } else if (next_square_value == '#') {
-      // If the next square for i-th snake is a wall, update the head to be 'x' and declare its death
+    } else if (next_square_value == '#' || is_snake(next_square_value)) {
+      // If the next square for i-th snake is a wall/snake body, update the head to be 'x' and declare its death
       set_board_at(state, curr_snake_pointer -> head_row, curr_snake_pointer -> head_col, 'x');
       curr_snake_pointer -> live = false;
     } else {
