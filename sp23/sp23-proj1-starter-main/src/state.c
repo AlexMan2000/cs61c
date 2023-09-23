@@ -6,8 +6,8 @@
 #include <string.h>
 
 // ONLY REQUIRED ON WINDOWS SYSTEM
-#include <io.h>
-#include <fcntl.h>
+// #include <io.h>
+// #include <fcntl.h>
 
 
 #define TAIL "wasd"
@@ -106,7 +106,7 @@ void free_state(game_state_t* state) {
 void print_board(game_state_t* state, FILE* fp) {
   // TODO: Implement this function.
   // Setting mode to binary for this file stream, ONLY ON WINDOWS
-  _setmode(_fileno(fp), _O_BINARY); 
+  // _setmode(_fileno(fp), _O_BINARY); 
     
   unsigned int nrows = state -> num_rows;
   char** board = state -> board;
@@ -420,20 +420,24 @@ game_state_t* load_board(char* filename) {
   // TODO: Implement this function.
   // 1. Initialize the game_struct_t
   game_state_t* game_state = (game_state_t*) malloc(sizeof(game_state_t));
+
+  int board_capacity = 1;
+  game_state -> board = (char**) malloc(sizeof(char*) * board_capacity);
   game_state -> num_snakes = 0;
   game_state -> snakes = NULL;
 
   // 2. Load the board from file
   FILE* fp = fopen(filename, "r");
   int ch;
-
   if (fp == NULL) {
     perror("Error opening file.");
     return NULL;
   }
 
   // 3. Get the board dpointer
+  // 3.1 Allocate memory for borad_pointer
   char** board_pointer = game_state -> board;
+
   unsigned int row_index = 0;
 
   size_t len = 0;
@@ -443,7 +447,6 @@ game_state_t* load_board(char* filename) {
   
   // 4. Start injecting into the game_state_object
   while ((ch = fgetc(fp)) != EOF) {
-    putchar(ch);
     if (ch == '\n') {
       char* row_string = (char*) malloc(len + 1); // Allow for the null terminator.
       strncpy(row_string, buf, len);
@@ -451,19 +454,31 @@ game_state_t* load_board(char* filename) {
       board_pointer[row_index] = row_string;
       free(buf);
       len = 0;  // Reset the length accumulator for the current row
+      row_index++;
       // Allocate new memory for new buffer
       buf = (char*) malloc(capacity + 1);
+      // Allocate new memory for new row
+      board_capacity++;
+      board_pointer = (char**) realloc(board_pointer, sizeof(char*) * board_capacity);
+      game_state -> board = board_pointer; // Be really careful, we have to update the memory pointer.
     } else {
       buf[len] = (char) ch;
       len++;
-      if (len > capacity) {
+      if (len >= capacity) {
         // Expand the buffer
-        buf = (char*) realloc(buf, capacity * 2);
+        size_t new_capacity = capacity * 2;
+        buf = (char*) realloc(buf, new_capacity);
+        capacity = new_capacity;
       }
     }
   }
 
+  // Initialize the height
+  game_state -> num_rows = row_index;
+
   free(buf);
+
+  fclose(fp);
 
   return game_state;
 }
@@ -478,11 +493,58 @@ game_state_t* load_board(char* filename) {
 */
 static void find_head(game_state_t* state, unsigned int snum) {
   // TODO: Implement this function.
+  snake_t* snake_pointer = state -> snakes + snum;
+
+  unsigned int start_row = snake_pointer -> tail_row; 
+  unsigned int start_col = snake_pointer -> tail_col;
+
+  char curr_char = get_board_at(state, start_row, start_col);
+
+  while (curr_char != 'W' && curr_char != 'A'
+  && curr_char != 'S' && curr_char != 'D') {
+      start_row = get_next_row(start_row, curr_char);
+      start_col = get_next_col(start_col, curr_char);
+      curr_char = get_board_at(state, start_row, start_col);
+  }
+
+  snake_pointer -> head_row = start_row;
+  snake_pointer -> head_col = start_col;
+
   return;
 }
 
 /* Task 6.2 */
 game_state_t* initialize_snakes(game_state_t* state) {
   // TODO: Implement this function.
-  return NULL;
+  char** board = state -> board;
+
+  int snake_capacity = 1;
+  int snake_num = 0;
+  state -> snakes = (snake_t*) malloc(sizeof(snake_t) * snake_capacity);
+
+  int board_row_length = state -> num_rows;
+
+  for (unsigned int i = 0 ; i < board_row_length; i++) {
+    char* row_pointer = board[i];
+    for (unsigned int j = 0; j < strlen(row_pointer); j++) {
+      if (row_pointer[j] == 'w' || row_pointer[j] == 'a' 
+      || row_pointer[j] == 's' || row_pointer[j] == 'd') {
+        if (snake_num >= snake_capacity) {
+          int new_snake_capacity = snake_capacity * 2;
+          snake_capacity = new_snake_capacity;
+          state -> snakes = (snake_t*) realloc(state -> snakes, sizeof(snake_t) * snake_capacity);
+        }
+        // Find tails
+        (state -> snakes + snake_num)->tail_row = i;
+        (state -> snakes + snake_num)->tail_col = j;
+        // FInd heads
+        find_head(state, snake_num);
+        snake_num++;
+        }
+      }
+    }
+
+    state -> num_snakes = snake_num;
+  
+  return state;
 }
