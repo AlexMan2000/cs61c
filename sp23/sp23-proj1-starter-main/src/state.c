@@ -418,7 +418,54 @@ void update_state(game_state_t* state, int (*add_food)(game_state_t* state)) {
 /* Task 5 */
 game_state_t* load_board(char* filename) {
   // TODO: Implement this function.
-  return NULL;
+  // 1. Initialize the game_struct_t
+  game_state_t* game_state = (game_state_t*) malloc(sizeof(game_state_t));
+  game_state -> num_snakes = 0;
+  game_state -> snakes = NULL;
+
+  // 2. Load the board from file
+  FILE* fp = fopen(filename, "r");
+  int ch;
+
+  if (fp == NULL) {
+    perror("Error opening file.");
+    return NULL;
+  }
+
+  // 3. Get the board dpointer
+  char** board_pointer = game_state -> board;
+  unsigned int row_index = 0;
+
+  size_t len = 0;
+  
+  size_t capacity = 16; // Initial buffer size, can be extended or shrinked.
+  char* buf = (char*) malloc(capacity + 1); // Initial buffer, allowing for null terminator
+  
+  // 4. Start injecting into the game_state_object
+  while ((ch = fgetc(fp)) != EOF) {
+    putchar(ch);
+    if (ch == '\n') {
+      char* row_string = (char*) malloc(len + 1); // Allow for the null terminator.
+      strncpy(row_string, buf, len);
+      row_string[len] = '\0';
+      board_pointer[row_index] = row_string;
+      free(buf);
+      len = 0;  // Reset the length accumulator for the current row
+      // Allocate new memory for new buffer
+      buf = (char*) malloc(capacity + 1);
+    } else {
+      buf[len] = (char) ch;
+      len++;
+      if (len > capacity) {
+        // Expand the buffer
+        buf = (char*) realloc(buf, capacity * 2);
+      }
+    }
+  }
+
+  free(buf);
+
+  return game_state;
 }
 
 /*
