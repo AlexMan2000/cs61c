@@ -6,8 +6,8 @@
 #include <string.h>
 
 // ONLY REQUIRED ON WINDOWS SYSTEM
-// #include <io.h>
-// #include <fcntl.h>
+#include <io.h>
+#include <fcntl.h>
 
 
 #define TAIL "wasd"
@@ -106,7 +106,7 @@ void free_state(game_state_t* state) {
 void print_board(game_state_t* state, FILE* fp) {
   // TODO: Implement this function.
   // Setting mode to binary for this file stream, ONLY ON WINDOWS
-  // _setmode(_fileno(fp), _O_BINARY); 
+  _setmode(_fileno(fp), _O_BINARY); 
     
   unsigned int nrows = state -> num_rows;
   char** board = state -> board;
